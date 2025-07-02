@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>YouTube Trending Videos of 2019 Data Analysis</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <h1> YouTube Trending Videos of 2019 Data Analysis </h1>
+<img src="static/yta2-1.png" alt="YouTube Logo" class="youtube-logo">
+
+
+    Today, I am sharing an enhanced and comprehensive version of YouTube analysis. 
+    This analysis is sophisticated and includes new, intriguing elements. 
+    It examines all trending videos from the entire year of 2019, totaling over 70,000 videos.
+
+    The analysis delves into titles, descriptions, thumbnails, tags, views, likes/dislikes, and comments to generate the findings presented in this post. 
+    Keep reading to explore the details of the analysis and the data, or skip ahead to the results section if you prefer.
+
+    The analysis delves into titles, descriptions, thumbnails, tags, views, likes/dislikes, and comments to generate the findings presented in this post. Keep reading to explore the details of the analysis and the data, or skip ahead to the results section if you prefer.
+
+    <h2> Summary of Key Findings from the Analysis </h2>
+
+    The primary objective of this analysis was to uncover fascinating patterns and insights by exploring the data and utilizing effective visualizations.
+
+    If you’re short on time, here are some key takeaways from the analysis, along with links to their respective sections:
+
+    <ol>
+  <li>
+    Top Trending Channels:
+    <ul>
+      <li>Linus Tech Tips, a technology-focused personal channel, produced the most trending videos in 2019.</li>
+      <li>Surprisingly, the second and third most popular channels were cooking-related.</li>
+    </ul>
+  </li>
+  <li>
+    Trending Video Longevity:
+    <ul>
+      <li>While most videos trend for a day or less, six videos remained on the trending list for 30 days.</li>
+    </ul>
+  </li>
+  <li>
+    Most Popular Video:
+    <ul>
+      <li>BTS’s song <em>“Boy With Luv”</em> was the most viewed, liked, and commented video but also ranked as the 5th most disliked.</li>
+    </ul>
+  </li>
+  <li>
+    Low-View Trending Videos:
+    <ul>
+      <li>Some videos trended with as few as 50,000 views.</li>
+    </ul>
+  </li>
+  <li>
+    Common Title Words:
+    <ul>
+      <li>Frequently used words in titles included “official,” “video,” “2019,” “vs,” “trailer,” “music,” “game,” “new,” “highlights,” “first,” and “challenge.”</li>
+      <li>Including the current year in titles may boost trending potential.</li>
+    </ul>
+  </li>
+  <li>
+    Emoji Usage:
+    <ul>
+      <li>The 🔥 emoji was the most common in trending video titles.</li>
+    </ul>
+  </li>
+  <li>
+    Title Length:
+    <ul>
+      <li>Most trending video titles ranged between 36 and 64 characters, with a minimum of 3 and a maximum of 100.</li>
+    </ul>
+  </li>
+  <li>
+    Low-Comment Trending Videos:
+    <ul>
+      <li>One video trended with only 7 comments.</li>
+    </ul>
+  </li>
+  <li>
+    Most Disliked Videos:
+    <ul>
+      <li>YouTube Rewind 2018 and 2019 were the 1st and 2nd most disliked videos.</li>
+    </ul>
+  </li>
+  <li>
+    Time to Trend:
+    <ul>
+      <li>On average, videos took 1.5 days to appear on the trending list for the first time.</li>
+    </ul>
+  </li>
+  <li>
+    Description Length:
+    <ul>
+      <li>While the maximum allowed is 5,000 characters, most trending videos had descriptions between 500 and 1,500 characters.</li>
+    </ul>
+  </li>
+  <li>
+    Social Media Links:
+    <ul>
+      <li>Many trending videos included social media links in their descriptions.</li>
+    </ul>
+  </li>
+  <li>
+    Tag Usage:
+    <ul>
+      <li>Nearly all trending videos used tags, with an average of 21 tags per video.</li>
+    </ul>
+  </li>
+  <li>
+    Thumbnail Analysis:
+    <ul>
+      <li>An object-detection algorithm revealed that people were the most common objects in thumbnails.</li>
+      <li>The analysis also identified the most common colors in thumbnails after extensive processing.</li>
+    </ul>
+  </li>
+</ol>
+
+    This analysis delves into much more, so keep reading to uncover additional insights!
+
+<!-- ------ -->
+
+<h3>What are YouTube Trending Videos?</h3>
+    
+    <p>YouTube, as you're likely aware, is the world's most popular and widely used video platform. One of its key features is the <strong>Trending</strong> section, which highlights videos that are currently capturing widespread attention. Here's how YouTube describes its Trending section:</p>
+    
+    <blockquote>
+        "Trending helps viewers see what's happening on YouTube and in the world. It aims to showcase videos that a broad audience would find interesting. Some trends are predictable, such as a new song from a popular artist or a movie trailer. Others are unexpected, like a viral video. Trending is not personalized; it displays the same list of videos to all users in each country."
+    </blockquote>
+    
+    <p>The Trending list is refreshed approximately every <strong>15 minutes</strong>, and with each update, videos may rise, fall, or maintain their position on the list. This dynamic system ensures that viewers are always in tune with the latest and most engaging content on the platform.</p>
+
+<!-- ------ -->
+
+    <h3><strong>Tools Used</strong></h3>
+    
+    <p>This analysis was performed using Python and a powerful group of Python libraries including Pandas, Matplotlib, NLTK, ImageAI, WordCloud, and more.</p>
+    
+    <p>The analysis were performed in a Jupyter Notebook.</p>
+
+<!-- ----- -->
+
+<h1><strong>Data Size and Description</strong></h1>
+
+<p>In this analysis, we focus on <strong>United States trending videos</strong>, which total <strong>72,994 videos</strong>. YouTube typically features <strong>200 videos</strong> in its Trending list each day, which would theoretically amount to <strong>73,000 videos</strong> (365 days x 200 videos). However, the dataset includes <strong>72,994 videos</strong>, likely because on some days, the number of trending videos was slightly fewer than 200.</p>
+
+<p>It's important to note that the <strong>72,994 videos</strong> are not all unique. Since the same video can appear on the trending list for multiple days, the dataset actually consists of <strong>11,177 unique videos</strong>. These 11,177 videos represent the total number of distinct videos that trended throughout 2019. Some videos remained on the list for just a day, while others trended for 10, 20, or even more days. We'll explore this in greater detail later in the analysis.</p>
+
+<img src="static/yta2-2.png" alt="Dataset statistics">
+
+<p>As shown in the dataset, each video is uniquely identified by its <strong>video ID</strong>, a distinct value that ensures no two videos on YouTube share the same identifier. Alongside the video ID, the dataset includes the following key details for each video:</p>
+
+<ul>
+    <li><strong>title</strong>: The name of the video.</li>
+    <li><strong>Publishing Date and Time</strong>: When the video was uploaded to YouTube.</li>
+    <li><strong>Channel</strong>: The creator or organization that published the video.</li>
+    <li><strong>Category</strong>: The genre or type of content (e.g., Music, Gaming, Entertainment).</li>
+    <li><strong>Description</strong>: A summary or additional information about the video.</li>
+    <li><strong>Tags</strong>: Keywords associated with the video to improve discoverability.</li>
+    <li><strong>Views, Likes, Dislikes, and Comments</strong>: Metrics reflecting the video's engagement and popularity.</li>
+</ul>
+
+<p>Additionally, the dataset includes a field called <strong>"trending_date"</strong>, which indicates the specific date the video appeared on the trending list. Since a video can trend for multiple days, there may be multiple records for the same video ID, each with a different <strong>"trending_date"</strong> and updated metrics (e.g., views, likes, dislikes, and comments). These metrics typically increase over time as the video gains more traction.</p>
+
+<p>For example, a video might have one record for January 1st with 100,000 views and another record for January 2nd with 150,000 views, reflecting its continued presence on the trending list and growing engagement. This structure allows for a detailed analysis of how videos perform over time while trending.</p>
+
+<!-- --------- -->
+
+<h1><strong>Analysis Results</strong></h1>
+
+<p>Now, let's dive into the most exciting part of this post—the <strong>analysis results</strong>!</p>
+
+<p>Before we proceed, it's important to clarify the approach we've taken for most of the analyses. Unless stated otherwise, the analyses are applied to <strong>all 72,994 trending video occurrences</strong>, not just the <strong>11,177 unique videos</strong>. The reasoning behind this is that a video that trends for multiple days is considered to have stronger "trending power" and more pronounced trending characteristics compared to a video that trends for just one day. By including all occurrences, we give more weight to videos that sustained their popularity over time.</p>
+
+<p>However, for certain analyses, focusing on <strong>unique videos</strong> is more appropriate. In such cases, a note will be provided to indicate this adjustment.</p>
+
+<!-- ------- -->
+
+<h1><strong>Trending Videos and Views</strong></h1>
+
+<p>The trending video with the highest number of views is a song by the BTS band named "Boy With Luv." The video was published on 12 April 2019 and appeared on the trending list on 23/04/2019 with 195,376,667 views, the highest number of views a trending video had in 2019.</p>
+
+<p>In the table below, you can see the top 3 trending videos based on the number of views. These videos had the most views when they appeared on the trending list compared to any other trending video. This table was produced by considering unique trending videos only.</p>
+
+<img src="static/yta2-3.png" alt="Top 3 trending videos by views">
+
+<p>And now we will look at the distribution of views for trending videos. The histogram below shows this distribution:</p>
+
+<img src="static/yta2-4.png" alt="Distribution of views for trending videos">
+
+<p><em>Notice that the y-axis is <a href="https://www.mathsisfun.com/definitions/logarithmic-scale.html">log scaled</a>. It is 10, 100, 1000... not 10, 20, 30...</em></p>
+
+<p>We can see that the vast majority of trending videos had less than 20 million views when they became trending. In fact, when they became trending, around <strong>94% of trending videos had less than 10 million views</strong> and around 99.9% had less than 100 million views.</p>
+
+<p>Now, we might ask: <strong>What are the trending videos with the least amount of views?</strong> The table below shows the 3 trending videos with the lowest number of views when appearing on the trending list. This table was produced by considering unique trending videos only.</p>
+
+<img src="static/yta2-5.png" alt="Trending videos with least views">
+
+<p>You can see that these three videos appeared on the trending list on the same day they were published on. Maybe they received a high number of views in the first few hours after they were published which sent them to the trending list.</p>
+
+
+<!-- ------ -->
+
+<h2><strong>How Many Views Videos Had When They First Became Trending?</strong></h2>
+
+<p>Earlier, we noted that numerous videos appeared on the trending list across multiple days. Now, our focus shifts to the initial appearance of each video. Specifically, we aim to determine the number of views a video had when it first entered the trending list.</p>
+
+<p>The accompanying graph illustrates the distribution of views for trending videos at the time of their first appearance on the trending list.</p>
+
+<div class="image-container">
+  <img src="static/yta2-6.png" alt="Distribution of views when videos first became trending" class="chart-image">
+  <p class="image-caption"><em>Note: The y-axis is log-scaled (10, 100, 1000...) rather than linear (10, 20, 30...)</em></p>
+</div>
+
+<p>From the graph, we can observe that one video gained trending status with approximately 150 million views, while another achieved the same with around 60 million views. However, the majority of videos entered the trending list with fewer than 30 million views.</p>
+
+<div class="stats-container">
+  <ul class="stats-list">
+    <li><strong>90% of trending videos</strong> first appeared with fewer than <strong>2,752,317 views</strong></li>
+    <li><strong>Minimum views</strong> for first trending appearance: <strong>53,796 views</strong></li>
+    <li><strong>Average views</strong> at first trending: <strong>1,387,466 views</strong></li>
+    <li><strong>Median (50th percentile)</strong>: <strong>777,510 views</strong></li>
+  </ul>
+</div>
+
+<!-- ------- -->
+
+<section class="trending-section">
+  <h2><strong>Trending for 30 days!</strong></h2>
+  
+  <div class="content-block">
+    <p>Some videos do not appear on the trending list for just one or two days. In fact, there are videos that remained on the trending list for as long as 30 days. The table below highlights the videos that appeared on the trending list most frequently. Specifically, there are six videos that appeared on the trending list for the maximum duration of 30 days.</p>
+  </div>
+  
+  <div class="image-comparison">
+    <div class="image-block">
+      <img src="static/yta2-7.png" 
+           alt="Videos that trended for 30 days in 2019" 
+           class="data-image">
+      <p class="image-label">2019 Trending Data</p>
+    </div>
+    
+    <div class="image-block">
+      <img src="static/yta2-8.png" 
+           alt="Current status of videos that trended for 30 days" 
+           class="data-image">
+      <p class="image-label">Current YouTube Status</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ------- -->
+
+<h1><strong>Trending Videos Titles</strong></h1>
+
+<p>Titles are a crucial component of every video, serving as a description that helps viewers decide whether to click and watch. As a result, video titles are a significant factor in a video's success, playing a vital role in determining its click-through rate (CTR). Here are some intriguing insights about the titles of trending videos in 2019:</p>
+
+<p>Approximately 6% of trending video titles were written entirely in uppercase (LIKE THIS). This calculation excludes numbers, symbols, and emojis. For instance, titles such as "FIRST TITLE", "2ND TITLE", and "#3 TITLE 🎉" are all considered fully uppercase.</p>
+
+<!-- ----- -->
+
+<h2><strong>Number of Fully-Uppercase Words in Titles</strong></h2>
+
+<p>If we count the number of fully-uppercase words in each of the trending videos titles we get the following distribution graph:</p>
+
+<img src="static/yta2-9.png" alt="Distribution of uppercase words in trending video titles">
+
+<p>This means that around 50% of trending videos have no fully-uppercase word in their titles, around 20% have 1 fully-uppercase word in their titles, around 10% have 2 fully-uppercase words in their titles, etc.</p>
+
+<!-- ------ -->
+
+<h2><strong>What are the Most Common Words in Video Titles?</strong></h2>
+
+<p>To determine if certain words appear more frequently in trending video titles, I analyzed the titles of all trending videos and counted the occurrences of each word. Before conducting the analysis, symbols were removed, and contractions were expanded to their full forms. For example, "aren't" was replaced with "are not," and "we'll" was replaced with "we will."</p>
+
+<div class="image-block">
+  <img src="static/yta2-10.png" alt="Word cloud of most common words in titles (with stop words)">
+  <p class="image-caption">Initial word cloud including stop words</p>
+</div>
+
+<p>In the initial word cloud, the most prominent word is "the," as it appears the largest. Other large words like "a," "to," and "in" are also visible. These words are known as stop words, which are extremely common in a language (in this case, English). Since stop words do not carry significant meaning for analysis, they were excluded to refine the results.</p>
+
+<div class="image-block">
+  <img src="static/yta2-11.png" alt="Word cloud of most common words in titles (without stop words)">
+  <p class="image-caption">Refined word cloud excluding stop words</p>
+</div>
+
+<p>We can now see more meaningfully the most common words in trending video titles. To see the exact commonness (frequency) values, the following table shows the most common 15 words with their frequencies:</p>
+
+<div class="image-block">
+  <img src="static/yta2-12.png" alt="Table of most common words in titles">
+</div>
+
+<blockquote>
+  <p>For more details on the process, method used for word tokenization, stop words specifications, etc., please review the code in the project notebook.</p>
+</blockquote>
+
+
+<!-- ------ -->
+<h3><strong>Most Common Symbols in Titles</strong></h3>
+
+<p>Now let's see what are the <strong>most common symbols</strong> in the titles of trending videos. Previously, we ignored symbols to produce the word clouds above. Now, we will consider only symbols. The table below shows the most common symbols:</p>
+
+<div class="image-block">
+  <img src="static/yta2-13.png" alt="Table of most common symbols in titles">
+</div>
+
+<p>From the analysis, we observe that the hyphen "-" is the most frequently occurring symbol in trending video titles, appearing approximately 23,000 times. Following the hyphen is the pipe symbol "|", which occurs around 21,000 times. The period "." ranks third, appearing 16,560 times in trending titles.</p>
+
+<h3><strong>Most Common Emojis in Titles</strong></h3>
+
+<p>Shifting the focus to emoji symbols, we can also identify the most common emojis used in the titles of trending videos. These emojis add a visual and expressive element to the titles, often making them more engaging and attention-grabbing for viewers.</p>
+
+<div class="image-block">
+  <img src="static/yta2-14.png" alt="Table of most common emojis in titles">
+  <p class="image-caption">So 🔥 is the most common with a frequency of 154 followed by ™️ and then ®.</p>
+</div>
+
+<!-- -------- -->
+
+<h2><strong>What are the Most Common 2-Grams in Video Titles?</strong></h2>
+
+<div class="content-block">
+  <p>Before diving into the results, let's clarify what 2-grams are. A 2-gram refers to a sequence of two consecutive words. For example, in the sentence "How are you today?", we can extract three 2-grams: "How are", "are you", and "you today?".</p>
+  
+  <p>By extracting 2-grams from all trending video titles, we can identify the most frequently occurring pairs of words. The word cloud below visualizes these common 2-grams, with each pair connected by a hyphen ("-"). The size of each 2-gram in the word cloud reflects its frequency, providing insight into the most popular word combinations in trending video titles.</p>
+</div>
+
+<div class="image-block">
+  <img src="static/yta2-15.png" 
+       alt="Word cloud of most common 2-grams in video titles" 
+       class="analysis-image">
+</div>
+
+<div class="data-table">
+  <img src="static/yta2-16.png"
+       alt="Table showing top 5 most common 2-grams"
+       class="data-table-image">
+</div>
+
+<div class="insight-block">
+  <p>In the word cloud, we can identify some trends: we can see "reacts to", "react to", "avenger endgame", "star wars", "anwar jibawi", etc.</p>
+</div>
+
+
+<!-- ------ -->
+
+<h2><strong>Titles Lengths</strong></h2>
+
+<div class="content-block">
+  <p>How long are trending video titles? The following box plot answers this question by showing the distribution of titles lengths.</p>
+</div>
+
+<div class="chart-container">
+  <img src="static/yta2-17.png" 
+       alt="Box plot showing distribution of title lengths" 
+       class="analysis-chart">
+</div>
+
+<div class="stats-block">
+  <p>From the analysis, we observe that:</p>
+  <ul>
+    <li>The majority of trending videos have titles ranging between <strong>36 and 64 characters</strong> in length</li>
+    <li>The average title length is <strong>51 characters</strong></li>
+    <li>The maximum title length is <strong>100 characters</strong> (YouTube's upper limit)</li>
+    <li>The minimum title length is <strong>3 characters</strong></li>
+  </ul>
+</div>
+
+<div class="example-block">
+  <p>Interestingly, there is one video with a title length of just 3 characters: a video titled "DHL," which appeared on the trending list for 7 days.</p>
+  <img src="static/yta2-18.png"
+       alt="Example of shortest video title"
+       class="example-image">
+</div>
+
+<!-- -------- -->
+
+<h2><strong>Trending Channels</strong></h2>
+
+<div class="section-intro">
+  <p>Which channels produced more trending videos? The following bar chart tells us the answer:</p>
+</div>
+
+<div class="chart-container">
+  <img src="static/yta2-19.png" 
+       alt="Bar chart of channels with most trending videos" 
+       class="main-chart">
+</div>
+
+<div class="channel-profile">
+  <h3>1. Linus Tech Tips</h3>
+  <p>We can see that <a href="https://www.youtube.com/user/LinusTechTips/?source=ammar-alyousfi" target="_blank">Linus Tech Tips</a> is the channel with most trending videos (365 videos). And the surprise is that it is a technology channel! This channel started in 2008 and has now (22/June/2020) 5,018 published videos.</p>
+  
+  <div class="channel-images">
+    <img src="static/yta2-20.png"
+         alt="Linus Tech Tips channel page"
+         class="channel-screenshot">
+    <img src="static/yta2-21.png"
+         alt="Linus Tech Tips most popular videos"
+         class="videos-screenshot">
+  </div>
+</div>
+
+<div class="channel-profile">
+  <h3>2. Binging with Babish</h3>
+  <p>The second channel with most trending videos is <a href="https://www.youtube.com/user/bgfilms" target="_blank">Binging with Babish</a> with 361 trending videos. This channel started in 2006 and has now 311 published videos.</p>
+  
+  <div class="channel-images">
+    <img src="static/yta2-22.png"
+         alt="Binging with Babish channel page"
+         class="channel-screenshot">
+    <img src="static/yta2-23.png"
+         alt="Binging with Babish most popular videos"
+         class="videos-screenshot">
+  </div>
+</div>
+
+<div class="channel-profile">
+  <h3>3. Bon Appétit</h3>
+  <p>And finally, the third top channel in the number of trending videos is <a href="https://www.youtube.com/user/BonAppetitDotCom/featured" target="_blank">Bon Appétit</a> with 355 trending videos. This channel started back in 2008 and has now 1,149 published videos.</p>
+  
+  <div class="channel-images">
+    <img src="static/yta2-24.png"
+         alt="Bon Appétit channel page"
+         class="channel-screenshot">
+    <img src="static/yta2-25.png"
+         alt="Bon Appétit most popular videos"
+         class="videos-screenshot">
+  </div>
+</div>
+
+<!-- ------ -->
+
+<h2><strong>Trending Videos Categories</strong></h2>
+
+<div class="category-intro">
+  <p>YouTube organizes videos into various categories, such as Entertainment, Music, Sports, Comedy, Education, and more. The bar chart below illustrates the number of trending videos within each category for the year 2019. It's important to note that the chart does not include every category, as some categories had no trending videos during that year. The chart provides a clear comparison of how many trending videos emerged from each included category, highlighting the most popular genres on the platform.</p>
+</div>
+
+<div class="category-chart">
+  <img src="static/yta2-26.png" 
+       alt="Bar chart of trending video categories in 2019" 
+       class="category-image">
+</div>
+
+<div class="category-stats">
+  <p>The Entertainment category leads with <strong>20,849 trending videos</strong>, accounting for <strong>28.6%</strong> of all trending videos in 2019. Following Entertainment is the Music category, which had <strong>10,236 trending videos</strong>, making up <strong>14%</strong> of the total. In third place is the Sports category, with <strong>7,565 trending videos</strong>, representing <strong>10.4%</strong> of the year's trending videos.</p>
+  
+  <p>This graph provides valuable insights into the types of videos that are more likely to appear on the trending list. It highlights the dominance of Entertainment, Music, and Sports categories, suggesting that these genres resonate strongly with viewers and are more frequently featured as trending content.</p>
+</div>
+
+<!-- ------- -->
+
+<h2><strong>When were Trending Videos Published?</strong></h2>
+
+<div class="publishing-analysis">
+  <div class="analysis-intro">
+    <p>To answer whether more trending videos were published on Saturday compared to Monday, or in the evening versus the morning, we can analyze the data using visualizations. It's important to note that the following graphs display dates and times in the GMT time zone, which is currently 4 hours ahead of Washington, DC.</p>
+  </div>
+
+  <div class="visualization-group">
+    <div class="day-analysis">
+      <h3>Publication by Day of Week</h3>
+      <img src="static/yta2-27.png" 
+           alt="Trending videos published by day of week" 
+           class="analysis-image">
+      <div class="insights">
+        <p>From the first graph, we observe that <strong>Tuesday had the highest number</strong> of trending videos published, with a total of <strong>11,986</strong>. The other days of the week, except for Saturday, are relatively close to Tuesday in terms of the number of trending videos. <strong>Saturday stands out</strong> with significantly fewer trending videos published, totaling only <strong>7,345</strong>.</p>
+      </div>
+    </div>
+
+    <div class="time-analysis">
+      <h3>Publication by Time of Day</h3>
+      <img src="static/yta2-28.png" 
+           alt="Trending videos published by hour of day" 
+           class="analysis-image">
+      <div class="insights">
+        <p>From the second graph, we can see that the <strong>peak hours</strong> for publishing trending videos were between <strong>16 and 18 (4 PM to 6 PM GMT)</strong>. When adjusted for Washington time (considering daylight saving time), these peak hours translate to <strong>12 PM to 2 PM</strong>. Additionally, the graph shows that significantly fewer trending videos were published between <strong>6 and 11 (6 AM to 11 AM GMT)</strong>, which corresponds to <strong>2 AM to 7 AM</strong> in Washington time.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="analysis-caveat">
+    <p>However, the two graphs do not necessarily imply that videos published on Tuesday or during peak hours have a higher likelihood of becoming trending. This is because Tuesday might simply be the day with the highest number of videos uploaded overall, rather than a day with a higher success rate for trending videos. Similarly, the peak hours might reflect a general increase in video uploads rather than a higher chance of trending.</p>
+    <p>To make accurate claims about the likelihood of videos trending based on the day or time of publication, we would need data on the total number of videos (not just trending videos) published on each day of the week and during each hour of the day in 2019. This additional context would help determine whether the observed trends are due to higher upload volumes or other factors influencing video success.</p>
+  </div>
+</div>
+
+<!-- -------- -->
+
+<h2><strong>Trending Videos and Comments</strong></h2>
+
+<div class="comments-section">
+  <div class="comments-intro">
+    <p>How many comments do trending videos have? The histogram below answers this question by showing the distribution of the number of comments for our trending videos:</p>
+  </div>
+
+  <div class="comments-chart">
+    <img src="static/yta2-29.png" 
+         alt="Distribution of comments on trending videos" 
+         class="comments-image">
+    <p class="chart-note"><em>Note: The y-axis is log-scaled (10, 100, 1000...) rather than linear (10, 20, 30...)</em></p>
+  </div>
+
+  <div class="comments-insights">
+    <p>From the graph, we can observe that:</p>
+    <ul>
+      <li>The vast majority of trending videos have <strong>fewer than 100,000 comments</strong></li>
+      <li><strong>98.7%</strong> of trending videos fall below this threshold</li>
+      <li><strong>90%</strong> have fewer than <strong>23,926 comments</strong></li>
+      <li>There are a few outliers with exceptionally high comment counts:
+        <ul>
+          <li>One video has approximately <strong>3,100,000 comments</strong></li>
+          <li>A few others range between <strong>600,000 and 3,100,000 comments</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <div class="top-comments">
+    <p>The table below highlights the top three trending videos based on their number of comments, showcasing the videos with the highest engagement in terms of viewer interaction.</p>
+    <img src="static/yta2-30.png"
+         alt="Top 3 trending videos by number of comments"
+         class="comments-table">
+  </div>
+
+  <div class="comments-summary">
+    <p>From the data, we can see that:</p>
+    <ul>
+      <li>The song <strong>"Boy With Luv" by BTS</strong> holds the record for the largest number of comments (<strong>3,120,684</strong>)</li>
+      <li>This song also previously held the record for the highest number of views</li>
+      <li>Second place: <strong>YouTube Rewind 2018</strong> (<strong>2,439,661 comments</strong>)</li>
+      <li>Third place: <strong>"Kill This Love" by BLACKPINK</strong> (<strong>1,051,015 comments</strong>)</li>
+    </ul>
+    <p>These three videos stand out as the most engaging in terms of viewer interaction through comments.</p>
+  </div>
+</div>
+
+<!-- ------- -->
+
+<h2><strong>How Many Comments Videos Had When they First Became Trending?</strong></h2>
+
+<div class="first-comments-section">
+  <p>Like we did with the number of views, we will see the number of comments videos have when whey appear on the trending list for the first time. The following graph shows us that:</p>
+
+  <div class="comments-distribution">
+    <img src="static/yta2-31.png"
+         alt="Distribution of comments when videos first became trending">
+    <p><em>Note: The y-axis is log-scaled (10, 100, 1000...) rather than linear (10, 20, 30...)</em></p>
+  </div>
+
+  <div class="comments-stats">
+    <p>From the graph, we can observe that the vast majority of videos had fewer than 50,000 comments when they first appeared on the trending list. To provide more specific details:</p>
+    <ul>
+      <li><strong>90% of trending videos</strong> had fewer than <strong>14,485 comments</strong> at the time of their first appearance on the trending list.</li>
+      <li>The <strong>minimum number of comments</strong> a video had when it first became trending was just <strong>7 comments</strong>.</li>
+      <li>The <strong>average number of comments</strong> at the time of first trending was <strong>7,718 comments</strong>, while the <strong>median (50th percentile)</strong> was <strong>3,056 comments</strong>.</li>
+    </ul>
+    <p>This data highlights that most videos gain trending status with relatively low comment counts, though there are exceptions with significantly higher engagement.</p>
+  </div>
+</div>
+
+<!-- ------- -->
+
+<h2>Trending Videos and Likes and Dislikes</h2>
+
+<p>Similar to what we did with views and comments, we want to see the distribution of the number of likes/dislikes for trending videos. The histogram below shows the likes distribution:</p>
+
+<img src="static/yta2-32.png" alt="Likes Distribution">
+
+<p><em>Notice that the y-axis is log scaled. It is 10, 100, 1000… not 10, 20, 30…</em></p>
+
+<p>95% of trending videos have less than 500,000 likes and 72.4% have less than 100,000 likes.</p>
+
+<p>The table below shows <strong>the 3 most liked trending videos</strong> in 2019:</p>
+
+<img src="static/yta2-33.png" alt="Top 3 Most Liked Videos">
+
+<p>Then we move to dislikes. This histogram shows the distribution of dislikes of our trending videos:</p>
+
+<img src="static/yta2-34.png" alt="Dislikes Distribution">
+
+<p><em>Notice that the y-axis is log-scaled. It is 10, 100, 1000… not 10, 20, 30…</em></p>
+
+<p>99.4% of trending videos have less than 100,000 dislikes and 91.5% have less than 10,000 dislikes.</p>
+
+<p>The following table shows <strong>the 3 most disliked trending videos</strong>:</p>
+
+<img src="static/yta2-35.png" alt="Top 3 Most Disliked Videos">
+
+<p>From the data, we can observe that the <em>YouTube Rewind</em> videos for 2018 and 2019 are the two most disliked trending videos of 2019. Interestingly, the number of dislikes for these videos, as well as the third video in the table, exceeds the number of likes. Despite this, they still managed to appear on the trending list.</p>
+
+<p>Additionally, while the song "Boy With Luv" by BTS was the most liked trending video, as highlighted earlier, it also ranks as the 5th most disliked video, with a total of 446,003 dislikes. This demonstrates that even highly popular and engaging content can attract significant criticism or negative feedback while still achieving trending status.</p>
+
+<!-- ------ -->
+
+<h2>How Long Does it Take a Video to Become Trending?</h2>
+
+<p>In other words, how many days are between publishing a video and its appearance on the trending list? The box plot below can answer this question:</p>
+
+<img src="static/yta2-36.png" alt="Days to Become Trending">
+
+<p>On average, a video appears on the trending list approximately 5.6 days after it is published. Additionally, 95% of videos take fewer than 13 days to appear on the trending list. There are also instances where videos achieved trending status in less than a day, showcasing the variability in how quickly content can gain traction.</p>
+
+<p>When focusing solely on the first appearance of a video on the trending list, the box plot below provides a detailed visualization of the distribution. This plot highlights the range, median, and outliers, offering a clearer understanding of the time it takes for videos to initially trend after publication. The box plot helps identify patterns and exceptions in the data, such as videos that trended unusually quickly or took longer than average.</p>
+
+<img src="static/yta2-37.png" alt="First Appearance Days to Trend">
+
+<p>In this case, the video takes on average 1.5 days to become trending. And 97% of the videos appeared on the trending list in less than 2 days after they were published.</p>
+
+<!-- ------- -->
+
+<h2>Trending Videos Descriptions</h2>
+
+<h3>How Long is the Description?</h3>
+
+<p>We know that each YouTube video can have a description and that the maximum length of the description is 5,000 characters. Now we ask: How long are the descriptions of trending videos? The box plot below tells us the answer:</p>
+
+<img src="static/yta2-38.png" alt="Description Length Distribution">
+
+<p>Here are some facts about trending video descriptions:</p>
+
+<ul>
+  <li>The average description length is <strong>1,129</strong> characters</li>
+  <li>Only 281 videos had no description</li>
+  <li>95% of the videos had less than 2,875 characters in their descriptions</li>
+</ul>
+
+<h3>Most Common Words in Trending Video Descriptions</h3>
+
+<p>The word cloud below visualizes the most common 100 words found in the descriptions of trending videos. Similar to the analysis of video titles, stop words (common words like "the," "a," and "in") have been excluded, and contractions (e.g., "aren't" expanded to "are not") have been expanded to ensure accuracy.</p>
+
+<p>In this word cloud, the size of each word corresponds to its frequency in the descriptions—the larger the word, the more frequently it appears. This visualization provides insight into the language and themes commonly used in the descriptions of trending videos, helping to identify key terms that may contribute to a video's appeal or discoverability.</p>
+
+<img src="static/yta2-39.png" alt="Common Words in Descriptions">
+
+<p>From the word cloud, we can observe that words like "https," "http," "com," and "www" are among the most common. This suggests that descriptions of trending videos frequently include URLs, likely linking to external websites or resources. Additionally, the names of social media platforms such as "Instagram," "Twitter," and "Facebook" appear prominently, indicating that descriptions often contain links to these platforms, possibly for promotional or engagement purposes.</p>
+
+<img src="static/yta2-40.png" alt="Top 15 Words in Descriptions">
+
+<p>And the following word cloud shows the most common 2-grams in trending videos descriptions (Again, see the titles section above for the meaning of 2-grams):</p>
+
+<img src="static/yta2-41.png" alt="Common 2-grams in Descriptions">
+
+<p>We can see that websites URLs are very common 2-grams in trending videos descriptions.</p>
+
+<!-- ------ -->
+
+<h2>Does Trending Videos Descriptions Contain Hashtags?</h2>
+
+  <p>How many trending videos contain hashtags (like <code>#abc</code>) in their descriptions? It turns out that <strong>33%</strong> of trending videos include hashtags in their descriptions. This leads us to another question: How many hashtags do those descriptions have? The following box plot answers this question. It shows the distribution of the number of hashtags in the description:</p>
+
+  <img src="static/yta2-42.png" alt="Box plot showing distribution of number of hashtags in trending video descriptions" />
+
+  <p>This plot focuses exclusively on videos that include hashtags in their descriptions. From the visualization, we can observe that the majority of these videos contain fewer than 6 hashtags. On average, videos have 2.7 hashtags in their descriptions. Additionally, 94% of these videos have fewer than 6 hashtags, indicating that most creators use hashtags sparingly rather than excessively. This suggests a trend toward strategic and moderate use of hashtags in video descriptions to enhance discoverability without overwhelming the content.</p>
+
+  <h2>Extract Hashtags from YouTube Videos Automatically</h2>
+
+  <p>Extract hashtags from YouTube videos effortlessly! This actor helps content creators and social media managers analyze and collect hashtags used in YouTube videos. The actor provides a clean JSON output containing:</p>
+
+  <h3>Input Parameters</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>youtubeVideoUrls</td>
+        <td>Array</td>
+        <td>List of YouTube video URLs to process</td>
+      </tr>
+      <tr>
+        <td>maxItems</td>
+        <td>Integer</td>
+        <td>Maximum number of items to extract (optional)</td>
+      </tr>
+      <tr>
+        <td>proxyConfiguration</td>
+        <td>Object</td>
+        <td>Proxy settings (optional)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>Perfect for integration with various platforms, the actor is optimized for performance and reliability.</p>
+
+  <h3>Example Input JSON</h3>
+  <pre><code>{
+  "youtubeVideoUrls": [
+    "https://www.youtube.com/watch?v=HV23VDFWC3o"
+  ]
+}</code></pre>
+
+  <p>The results will be wrapped into a dataset which you can always find in the <strong>Storage</strong> tab. Here's an excerpt from the data you'd get if you apply the input parameters above.</p>
+
+  <!-- ----- -->
+
+    <h2>Trending Videos Tags</h2>
+
+  <p>When uploading a video to YouTube, creators have the option to add tags, which are not displayed on the video page but can be viewed through the page’s source code or browser extensions like TubeBuddy and vidIQ. There is ongoing debate about whether tags influence how YouTube’s algorithm promotes videos. Specifically, do effective tags help the algorithm reach more viewers, or do they impact a video’s placement in search results? The answer remains unclear. YouTube itself provides a note above the tag section during upload, stating:</p>
+
+  <blockquote>
+    <em>“Tags can be useful if content in your video is commonly misspelled. Otherwise, tags play a minimal role in helping viewers find your video.”</em>
+  </blockquote>
+
+  <p>However, this raises questions, as YouTube often adds numerous tags to its own videos. For example, the <em>YouTube Rewind 2019</em> video includes a long list of tags, such as:</p>
+
+  <blockquote>
+    <em>Rewind, Rewind 2019, youtube rewind 2019, #YouTubeRewind, MrBeast, PewDiePie, James Charles, Shane Dawson, CaseyNeistat, RiceGum, Simone Giertz, JennaMarbles, Lilly Singh, emma chamberlain, The Try Guys, Fortnite, Minecraft, Roblox, Marshmello, Garena Free Fire, GTA V, Lachlan, Anaysa, jeffreestar, Noah Schnapp, Jennelle Eliana, T-Series, Azzyland, LazarBeam, Dude Perfect, David Dobrik, KSI, NikkieTutorials, Kurzgesagt, Jelly, Ariana Grande, Billie Eilish, BLACKPINK, Year in Review.</em>
+  </blockquote>
+
+  <p>Despite YouTube’s disclaimer, the use of extensive tags by the platform itself suggests that tags may hold some significance, even if their exact impact remains uncertain.</p>
+
+  <p>The following violin plot illustrates the distribution of the number of tags in trending videos. This visualization provides insight into how many tags trending videos typically include, helping to identify patterns or trends in tag usage among successful content. The plot reveals the range, density, and commonalities in the number of tags used, offering a clearer picture of how creators leverage tags for their trending videos.</p>
+
+  <img src="static/yta2-43.png" alt="Violin plot showing distribution of number of tags in trending videos" />
+
+  <p>From the violin plot, we can observe that the majority of trending videos have between 10 and 30 tags. Here are some key insights about the tags used in trending videos:</p>
+
+  <ul>
+    <li>The average number of tags per trending video is <strong>21 tags</strong>.</li>
+    <li>Only <strong>3.5%</strong> of trending videos have no tags at all.</li>
+    <li>The minimum number of tags a trending video has is <strong>0</strong>.</li>
+    <li>The maximum number of tags a trending video has is <strong>73</strong>.</li>
+  </ul>
+
+  <p>After examining the number of tags, we now turn to the <strong>length of the tags</strong> used in trending videos. YouTube allows creators to add as many tags as they want, but the total combined length of all tags must not exceed <strong>500 characters</strong>. This constraint ensures that tags remain concise and relevant.</p>
+
+  <p>The following violin plot illustrates the distribution of tag lengths for trending videos. This visualization helps us understand how creators utilize the available character limit for tags, revealing patterns in the length of tags and how they might contribute to a video's discoverability or success. The plot highlights the range, density, and commonalities in tag lengths, providing further insight into the tagging strategies of trending videos.</p>
+
+  <img src="static/yta2-44.png" alt="Violin plot showing distribution of tag lengths in trending videos" />
+
+  <p>The length of tags in trending videos ranges from <strong>0 to 457 characters</strong>. While almost all tag lengths are equally common, there is a noticeable peak in usage between <strong>400 and 450 characters</strong>. Here are some key facts about the tag lengths of trending videos:</p>
+
+  <ul>
+    <li>On average, the length of tags for a trending video is <strong>251 characters</strong>, which is approximately half of the allowed maximum of 500 characters.</li>
+    <li>The minimum tag length for a trending video is <strong>0 characters</strong> (indicating no tags are used).</li>
+    <li>The maximum tag length for a trending video is <strong>457 characters</strong>, which is close to the 500-character limit but does not reach it.</li>
+  </ul>
+
+  <p>This data suggests that while some creators maximize the use of available tag space, the majority tend to use around half of the allowed character limit. The peak between 400 and 450 characters indicates that a significant portion of creators aim to utilize most of the available tag space, possibly to enhance discoverability or optimize their video's performance in search results.</p>
+
+  <!-- ------ -->
+
+    <h2>Most Common Words in Trending Video Tags</h2>
+
+  <p>As we did with titles and descriptions, let’s see the most common words in the tags of trending videos. The word cloud below shows us the most common 100 words:</p>
+
+  <img src="static/yta2-45.png" alt="Word cloud of the most common 100 words in trending video tags" />
+
+  <p>We can see that words like “video”, “2019”, “funny”, etc. are more common than the other words. The table below shows the <strong>most common 15 words</strong> with their exact frequency:</p>
+
+  <img src="static/yta2-46.png" alt="Table of the most common 15 words in trending video tags with frequencies" />
+
+  <p>After we saw the most common words in video tags, let’s now see the most common tags used in trending videos which are shown in this word cloud:</p>
+
+  <img src="static/yta2-47.png" alt="Word cloud of the most common tags in trending videos" />
+
+  <!-- --------- -->
+
+  <h2>Correlations of Trending Videos</h2>
+
+  <p>Now let’s see how different metrics of trending videos are <a href="https://www.mathsisfun.com/data/correlation.html" target="_blank" rel="noopener noreferrer">correlated</a>. We want to see how views are correlated with likes and how title length is correlated with views and more. Let’s visualize the correlation between different metrics by using a heatmap:</p>
+
+  <img src="static/yta2-48.png" alt="Heatmap showing correlations between different metrics of trending videos" />
+
+  <p>In this heatmap, lighter colors represent higher positive correlations, while darker colors indicate lower positive correlations (or sometimes negative correlations). The correlation values range from <strong>-1</strong> (perfect negative correlation) to <strong>1</strong> (perfect positive correlation).</p>
+
+  <p>From the heatmap, we can observe the following key insights:</p>
+
+  <ol>
+    <li><strong>Views and Likes</strong>: There is a <strong>high positive correlation (0.81)</strong> between views and likes, indicating that as the number of views increases, the number of likes tends to increase as well. This suggests that popular videos with high view counts often receive more likes.</li>
+    <li><strong>Comments and Views</strong>: There is a <strong>significant positive correlation (0.61)</strong> between comments and views, meaning that videos with more views tend to generate more comments. This highlights the relationship between viewer engagement and video popularity.</li>
+    <li><strong>Comments and Likes</strong>: A <strong>significant positive correlation</strong> exists between comments and likes, showing that videos with more likes also tend to have more comments. This reinforces the idea that engagement metrics (likes and comments) often go hand in hand.</li>
+    <li><strong>Comments and Dislikes</strong>: There is also a <strong>positive correlation</strong> between comments and dislikes, suggesting that videos with more dislikes tend to generate more comments. This could indicate that controversial or polarizing content often sparks higher viewer interaction, even if it is negative.</li>
+  </ol>
+
+  <p>Overall, the heatmap reveals strong relationships between key engagement metrics, emphasizing how views, likes, comments, and dislikes are interconnected in trending videos.</p>
+
+  <!-- --------- -->
+
+    <h2>What are the Most Used Colors in Trending Videos Thumbnails?</h2>
+
+  <p>YouTube video thumbnails are the small images you see when you browse YouTube videos</p>
+
+  <p>Thumbnails play a crucial role in the success of a YouTube video, as they significantly influence the click-through rate (CTR)-the percentage of viewers who click on a video after seeing it. A higher CTR signals to YouTube’s algorithm that the video is engaging and attractive, prompting the platform to promote it to a wider audience. As a result, many successful YouTubers invest considerable time and effort into designing thumbnails that capture attention and encourage clicks.</p>
+
+  <p>To analyze the most commonly used colors in the thumbnails of 2019’s trending videos, we followed these steps:</p>
+
+  <ol>
+    <li><strong>Downloading Thumbnails</strong>: We downloaded the thumbnails of all trending videos, ensuring that duplicates were excluded. For example, if a video appeared on the trending list multiple times, only one copy of its thumbnail was downloaded. In total, we collected <strong>11,177 unique thumbnails</strong>.</li>
+    <li><strong>Pixel Analysis</strong>: Each thumbnail has a resolution of <strong>320 x 180 pixels</strong>, meaning it contains <strong>57,600 pixels</strong>. Across all thumbnails, this amounts to <strong>643,795,200 pixels</strong>. We extracted the color of each pixel and counted the occurrences of every color.</li>
+    <li><strong>Color Dictionary</strong>: The result was a dictionary mapping each color to its frequency across all thumbnails. This allowed us to identify the most dominant colors used in trending video thumbnails.</li>
+  </ol>
+
+  <p>By analyzing these colors, we can uncover patterns and trends in thumbnail design, providing insights into what visual elements might contribute to higher engagement and CTR. This analysis helps creators understand the importance of color choices in crafting thumbnails that stand out and attract viewers.</p>
+
+  <pre><code>{
+ (255, 255, 255): 7572881,
+ (254, 255, 255): 660165,
+ (251, 255, 255): 280416,
+ (249, 255, 255): 154100,
+ (248, 255, 255): 131042,
+ (255, 254, 255): 626143,
+ ...
+}</code></pre>
+
+  <p>The dictionary generated from the pixel analysis contained <strong>4,098,274 unique colors</strong>, each with its corresponding frequency. For example, the snippet shows that <strong>7,572,881 pixels</strong> are white, represented by the RGB color (255, 255, 255). Additionally, <strong>660,165 pixels</strong> are also white but represented by the slightly different RGB color (254, 255, 255). While these two shades of white are visually indistinguishable to the human eye, they are technically different in their RGB values.</p>
+
+  <p>This level of granularity poses a challenge when trying to identify the most used colors in thumbnails. If we were to list the 100 most common colors from the dictionary, they would predominantly consist of <strong>shades of white and black</strong>, with minor variations in their RGB values. For instance, the top 100 colors might include (255, 255, 255), (254, 255, 255), (255, 254, 255), and similar shades, all of which appear nearly identical to the viewer.</p>
+
+  <p>The following image illustrates the 100 most common colors according to the dictionary. As expected, these colors are overwhelmingly white and black, with subtle differences in their RGB representations. This highlights the need for a more practical approach to analyzing thumbnail colors, such as grouping similar shades into broader color categories or using color quantization techniques to reduce the complexity and focus on visually distinct colors.</p>
+
+  <img src="static/yta2-50.png" alt="The 100 most common colors in trending video thumbnails, mostly white and black shades" />
+
+  <p>As you can see, they are essentially white and black colors with a few grey colors.</p>
+
+  <p>The approach we followed then to find the most used colors was by taking the most common 10,000 colors from that dictionary then removing “duplicate” colors. For example, we kept only one black and removed all other blacks that were similar to that black.</p>
+
+  <p>To measure the similarity between two RGB colors, we converted the colors to Lab colors and calculated the Euclidean distance between these Lab colors. Then we considered the colors similar if the following quantity fell between 0.9 and 1.0: <br />
+ where 375.6 is the maximum possible distance between two Lab colors.</p>
+
+  <p><strong>After this process, we ended up with 19 colors which are the most used colors in video thumbnails</strong>. Here are the colors sorted by popularity:</p>
+
+  <img src="static/yta2-51.png" alt="The 19 most used colors in trending video thumbnails sorted by popularity" />
+
+
+</body>
+</html>
